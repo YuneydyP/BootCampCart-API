@@ -36,7 +36,8 @@ class CartItem:
         resp.status = falcon.HTTP_204
     
     def on_patch(self, req, resp, product_id):
-        val = model_to_dict(req.get_media())['quantity']
-        new = DatabaseCartItem.update(quantity=val).where(id=product_id)
-        new.save()
+        val = req.get_media()
+        item = DatabaseCartItem.get(id=product_id)
+        item.quantity = val["quantity"]
+        item.save()
         resp.status = falcon.HTTP_204
