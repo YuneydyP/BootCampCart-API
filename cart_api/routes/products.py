@@ -19,9 +19,22 @@ class Product:
 # GET products returns a list of every product in the database
 # POST products creates a product and returns the data it created
 
-
 class Products:
-    pass  # must have a pass line because you cannot have a "blank" class
-    # def on_get(self, req, resp):
+    def on_get(self, req, resp):
+        resp.media = [model_to_dict(item) for item in DatabaseProducts.select()]
+        resp.status = falcon.HTTP_200 
 
-    # def on_post(self, req, resp):
+    def on_post(self, req, resp):
+        obj = req.get_media()
+        product = DatabaseProducts( 
+            name = obj['name'],
+            description= obj['description'],
+            image_url = obj['image_url'],
+            price= obj['price'],
+            is_on_sale= obj['is_on_sale'],
+            sale_price= obj['sale_price']
+        )
+        product.save()
+        resp.media = model_to_dict(product)
+        resp.status = falcon.HTTP_201
+        

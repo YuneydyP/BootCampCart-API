@@ -89,6 +89,7 @@ class DatabaseProducts(BaseModel):
 # and has the properties and types defined by your swagger spec.
 # if neccesary, update EXAMPLE_CART_ITEM in cart_api_tests/test_exercises.py to match
 class DatabaseCartItem(BaseModel):
+    id = AutoField(primary_key=True)
     name = CharField()
     price = DoubleField()
     quantity = IntegerField()
